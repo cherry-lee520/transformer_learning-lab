@@ -1,0 +1,35 @@
+✔ FFN 小矩阵手工参考：线性、ReLU、输出形状和偏置 (1.4697ms)
+✔ Position-wise FFN 共享参数且不同 Token 不直接互相影响 (0.2634ms)
+✔ 残差相加手工值、形状拒绝与溢出 (0.2727ms)
+✔ LayerNorm 逐 Token 总体均值/方差，不跨 Token 统计 (0.3441ms)
+✔ LayerNorm gamma/beta 可学习变换与零方差 epsilon (0.1508ms)
+✔ Post-LN 先残差再归一化，保留全部中间数据 (0.1541ms)
+✔ Cross-Attention 手工概率/加权值，Query 与 Source 长度不同 (0.4346ms)
+✔ Multi-Cross 独立投影、Concat 和 WO 形状，等长时与 T08 数值一致 (1.1655ms)
+✔ Encoder Block 与明确组装的注意力/残差/FFN 对照 (4.0951ms)
+✔ 多层 Encoder 输出逐层相接，层参数不共享对象 (2.5687ms)
+✔ Decoder 包含三次 Post-LN 和 Cross-Attention，Memory 为真实 Encoder 输出 (1.6039ms)
+✔ Decoder Mask 未来权重严格为零，Cross 无 Mask (1.2063ms)
+✔ 三层 Decoder 的未来信息隔离，已知前缀每层表示/概率保持一致 (5.5386ms)
+✔ 延长目标前缀不改变已有位置，PE 不用全序列统计 (2.2793ms)
+✔ T07 Embedding/位置编码复用与明确 sqrt(d_model) 缩放 (0.5406ms)
+✔ 共享输出投影 Eᵀ 与手工 Logits/Softmax 参考 (0.2937ms)
+✔ 完整 Transformer 所有层形状与概率归一化 (1.6744ms)
+✔ 固定种子可重复，种子不同有差异；独立层/Head/Norm 参数 (5.8121ms)
+✔ 最大教学配置 3/3 层、16 维、4 头、64 FFN、12/12 长度有限 (18.5574ms)
+✔ 修改上游 Embedding 同时更新源/目标与共享投影，不改变旧参数 (2.8807ms)
+✔ 修改 FFN/Norm/Head 参数独立且重算一致 (6.7536ms)
+✔ 配置与维度拒绝：层数/Heads/矩阵/序列/词表尺寸 (2.5913ms)
+✔ 非法值 NaN/Infinity/稀疏数组与坏 gamma/beta 安全拒绝 (2.8511ms)
+✔ 真实 Tokenization/UNK、ID 与序列教学上限 (11.425ms)
+✔ Top-K 从真实概率排序，ID 稳定并验证非法 count (1.4803ms)
+✔ Tensor Flow 全真实张量、依赖有序、三子层和形状齐全 (4.1548ms)
+✔ Tensor Flow 公式经过真实 KaTeX 排版，所有配置可生成一致追踪 (32.6112ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 522.9218

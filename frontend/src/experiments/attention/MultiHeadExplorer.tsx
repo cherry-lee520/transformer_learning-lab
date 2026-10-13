@@ -1,0 +1,17 @@
+import { useState } from 'react';
+import { MathFormula } from '../../components/lesson/MathFormula';
+import type { Matrix, MultiParameters, ProjectionWeights, multiHead } from '../../services/attention/math';
+import { AttentionMatrix, MatrixEditor } from './AttentionMatrix';
+import { AttentionHeatmap } from '../../visualizations/attention/AttentionHeatmap';
+export function MultiHeadExplorer({ parameters, result, model, tokens, onCount, onWeights, onReset, onDraft }: { parameters: MultiParameters; result: ReturnType<typeof multiHead>; model: number; tokens: string[]; onCount: (count: number)=>void; onWeights: (index: number|'wo', key: keyof ProjectionWeights, next: Matrix)=>void; onReset: ()=>void; onDraft: ()=>void }) {
+  const [selection,setSelection]=useState(0), [cell,setCell]=useState<[number,number]>([0,0]), head=Math.min(selection,parameters.heads.length-1), value=result.heads[head];
+  return <section><h2>E · 多个 Head，独立投影再组合</h2><p className="lr-lead">每头独立计算，按列连接输出后再乘 WO。这里没有训练，不能给某个 Head 指定“语法头”或“语义头”的固定标签。</p><div className="lr-controls"><label className="lr-field">Head 数量<select aria-label="Head 数量" value={parameters.heads.length} onChange={event=>{onCount(Number(event.target.value));setSelection(0);}}>{Array.from({length:8},(_,i)=>i+1).filter(n=>model%n===0).map(n=><option key={n} value={n}>{n}</option>)}</select></label><label className="lr-field">查看 Head<select aria-label="查看 Head" value={head} onChange={event=>{setSelection(Number(event.target.value));setCell([0,0]);}}>{parameters.heads.map((_,i)=><option key={i} value={i}>Head {i}</option>)}</select></label><button className="button secondary" onClick={onReset}>按当前种子重置多头参数</button></div>
+    <p>当前 d_model={model}，h={parameters.heads.length}，每头 dk=dv={model/parameters.heads.length}。改 Head 数量会重建全部多头权重；单头实验的权重独立保留。</p><MathFormula latex="\operatorname{MultiHead}(X)=\operatorname{Concat}(head_1,\ldots,head_h)W_O" display/>
+    <div className="at-head-summary">{result.heads.map((item,i)=><button key={i} aria-pressed={head===i} onClick={()=>setSelection(i)}>Head {i}<span>Q/K/V：{tokens.length}×{item.dk}</span><span>输出：{tokens.length}×{item.dv}</span></button>)}</div>
+    <h3>Head {head} · 独立参数</h3><div className="at-grid">{(['wq','wk','wv'] as const).map(key=><details key={key} open><summary>Head {head} {key.toUpperCase()}</summary><MatrixEditor title={'H'+head+' '+key.toUpperCase()} values={parameters.heads[head][key]} onChange={next=>onWeights(head,key,next)} onDraft={onDraft}/></details>)}</div>
+    <div className="at-grid">{(['q','k','v'] as const).map(key=><AttentionMatrix key={key} title={'Head '+head+' '+key.toUpperCase()} values={value[key]}/>)}</div>
+    <AttentionHeatmap label={'Head '+head+' Heatmap'} tokens={tokens} weights={value.weights} query={Math.min(cell[0],tokens.length-1)} selectedKey={Math.min(cell[1],tokens.length-1)} onSelect={(i,j)=>setCell([i,j])}/><AttentionMatrix title={'Head '+head+' 权重'} values={value.weights}/><AttentionMatrix title={'Head '+head+' 输出'} values={value.output}/>
+    <AttentionMatrix title="Concat 全部 Head 输出" values={result.concat}/><details open><summary>WO · 输出投影参数</summary><MatrixEditor title="WO" values={parameters.wo} onChange={next=>onWeights('wo','wq',next)} onDraft={onDraft}/></details><AttentionMatrix title="Multi-Head Output" values={result.output}/>
+    <p className="lr-note">不同 Heatmap 说明当前投影和输入不同，不证明已学习不同语言功能。图示缩放在每头使用 √dk；全局 Causal 开关也作用于每个 Head。</p>
+  </section>;
+}

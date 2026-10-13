@@ -1,0 +1,5 @@
+// Decorative SVG only: T01 does not implement mathematical animations.
+export function NetworkIllustration() {
+  const layers = [[66, 120, 174], [40, 94, 148, 202], [66, 120, 174]];
+  return <svg className="network-illustration" viewBox="0 0 390 250" fill="none" aria-hidden="true"><defs><linearGradient id="node-fill"><stop stopColor="#9f9afa" /><stop offset="1" stopColor="#6978e9" /></linearGradient></defs><circle cx="195" cy="120" r="110" stroke="#c6c2fa" strokeDasharray="3 8" /><circle cx="195" cy="120" r="78" stroke="#d6d4fa" />{layers.slice(0, 2).flatMap((layer, i) => layer.flatMap((y, j) => layers[i + 1].map((nextY, k) => <path key={`${i}-${j}-${k}`} d={`M${75 + i * 120} ${y} L${195 + i * 120} ${nextY}`} stroke="#9997e5" strokeOpacity=".36" />)))}{layers.flatMap((layer, i) => layer.map((y, j) => <g key={`${i}-${j}`}><circle cx={75 + i * 120} cy={y} r="15" fill="white" fillOpacity=".65" /><circle cx={75 + i * 120} cy={y} r="8" fill="url(#node-fill)" /></g>))}<text x="195" y="240" textAnchor="middle" fill="#817cb1" fontSize="10" letterSpacing="3">CONNECT THE IDEAS</text></svg>;
+}

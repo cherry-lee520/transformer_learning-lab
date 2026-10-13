@@ -1,0 +1,89 @@
+.neuron-lab-intro { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 25px 28px; border: 1px solid #e3dcf7; border-radius: 15px; background: linear-gradient(115deg,#efebfc,#f0f5ff); margin: 18px 0; }
+.neuron-lab-intro h2 { color: #544774; font-size: 21px; margin: 13px 0 10px; line-height: 1.6; }
+.neuron-lab-intro p, .lab-muted { font-size: 12px; color: #8a7e9d; line-height: 1.9; }
+.lab-return-links { display: flex; flex-wrap: wrap; gap: 22px; }
+.lab-live-result { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+.lab-live-result > span { display: flex; flex-direction: column; align-items: center; gap: 7px; font-size: 11px; color: #8e7fa5; }
+.lab-live-result strong, .lab-live-result output { font-size: 30px; color: #7760b2; font-weight: 650; }
+.live-arrow { color: #b6a5d3; font-size: 22px !important; }
+.lab-jump-links { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+.lab-jump-links a { font-size: 12px; padding: 7px 12px; color: #86729f; background: #f0ecf9; border-radius: 7px; }
+.lab-jump-links a:hover { color: #69538e; background: #e5ddf3; }
+.neuron-workbench { display: grid; grid-template-columns: minmax(0,1fr) minmax(280px, .56fr); grid-template-areas: "graph parameters" "steps parameters" "activation parameters"; align-items: start; gap: 20px; }
+.neuron-workbench > section { min-width: 0; scroll-margin-top: 24px; }
+.neuron-workbench h2, .neuron-challenges h2 { font-size: 18px; margin: 9px 0 13px; line-height: 1.6; }
+.neuron-parameters { grid-area: parameters; }
+.neuron-graph-panel { grid-area: graph; }
+.forward-panel { grid-area: steps; }
+.activation-panel { grid-area: activation; }
+.lab-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.lab-select-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+.neuron-workbench label, .neuron-challenge label { font-size: 12px; color: #746482; }
+.neuron-workbench select, .seed-control input, .challenge-answer input { display: block; width: 100%; min-width: 0; margin-top: 7px; border: 1px solid #ddd4ed; border-radius: 7px; padding: 9px 11px; color: #715c87; background: white; font: inherit; }
+.input-pairs { display: grid; gap: 16px; margin-bottom: 22px; }
+.input-pair { min-width: 0; margin: 0; padding: 14px 12px; border: 1px solid #ebe5f4; border-radius: 10px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 15px; background: #fbfaff; }
+.input-pair legend { padding: 0 6px; font-size: 11px; color: #a18bb7; }
+.neuron-parameters .parameter-field > div { flex-wrap: wrap; gap: 6px; }
+.neuron-parameters .parameter-field input[type=number] { width: 72px; padding: 6px 7px; font-size: 12px; }
+.neuron-parameters .parameter-field label { font-size: 11px; }
+.lab-preset-area { margin-top: 24px; display: grid; gap: 14px; border-top: 1px solid #eee8f5; padding-top: 20px; }
+.seed-control { margin-top: 20px; padding: 15px; background: #f5f2fb; border-radius: 9px; display: grid; gap: 12px; }
+.graph-zoom { display: flex; align-items: center; gap: 4px; color: #9783b0; font-size: 10px; }
+.graph-scroll { overflow: auto; max-width: 100%; margin: 12px 0; }
+.graph-scroll > div { min-width: 0; }
+.neuron-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.graph-edge { fill: none; stroke: #bdadd7; stroke-width: 2; transition: stroke .2s, opacity .2s; }
+.weight-positive { stroke: #8d9dde; }.weight-negative { stroke: #d8a082; }.weight-zero { stroke: #b6bfcd; stroke-dasharray: 5 5; }
+.graph-edge.is-active { stroke-width: 4; }
+.graph-node { cursor: pointer; outline: none; }
+.node-shape { fill: #fcfaff; stroke: #ddd3ee; stroke-width: 1.5; transition: fill .18s, stroke .18s; }
+.graph-node:hover .node-shape, .graph-node:focus-visible .node-shape, .graph-node.is-selected .node-shape { stroke: #9772ca; stroke-width: 2.5; fill: #f3ecfc; }
+.graph-node.is-active .node-shape { fill: #eee7fc; stroke: #a08bd8; stroke-width: 2.5; animation: neuron-glow 1.2s ease-in-out infinite alternate; }
+.graph-node:focus-visible .node-shape { stroke: #694196; stroke-width: 3.5; }
+.neuron-svg text { text-anchor: middle; pointer-events: none; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+.node-label { font-size: 12px; fill: #9a88b2; }.node-number { font-size: 15px; fill: #695584; font-weight: 650; }.node-detail { font-size: 10px; fill: #9d89b4; }
+.weight-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; font-size: 10px; color: #9b90a9; margin: 15px 0; }
+.weight-legend span::before { content: ""; display: inline-block; vertical-align: middle; width: 20px; border-top: 2px solid #8d9dde; margin-right: 6px; }
+.weight-legend .negative::before { border-color: #d8a082; }.weight-legend .zero::before { border-color: #b6bfcd; border-top-style: dashed; }
+.node-explanation { background: #f5f1fc; border: 1px solid #e9e0f4; border-radius: 9px; padding: 14px 17px; color: #837091; font-size: 12px; line-height: 1.9; min-height: 90px; }
+.node-explanation strong { color: #71598d; display: block; margin-bottom: 4px; }
+.forward-timeline { list-style: none; padding: 0; margin: 18px 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.forward-timeline button { display: flex; align-items: center; gap: 7px; width: 100%; height: 100%; padding: 10px 7px; border: 1px solid #eee8f5; border-radius: 7px; background: #fbfaff; color: #9887a7; font-size: 10px; text-align: left; }
+.forward-timeline button span { width: 20px; height: 20px; display: grid; place-items: center; flex-shrink: 0; border-radius: 50%; background: #eee8f8; color: #9c88bb; font-size: 9px; }
+.forward-timeline [aria-current=step] button { border-color: #b5a1db; background: #efe8fc; color: #6c5295; }
+.forward-current { border-radius: 10px; background: #f7f4fd; padding: 17px; min-width: 0; color: #7c698f; font-size: 12px; line-height: 1.9; }
+.forward-current h3 { font-size: 14px; color: #6d548d; margin-bottom: 12px; }
+.forward-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin: 18px 0; }
+.forward-controls .button { padding: 9px 11px; font-size: 11px; }
+.forward-controls label { display: flex; align-items: center; gap: 10px; }
+.forward-controls select { width: auto; margin: 0; padding: 9px; font-size: 11px; }
+.activation-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.activation-tabs button { border: 1px solid #e5dcef; border-radius: 7px; padding: 7px 12px; font-size: 12px; color: #9781ab; background: #fcfaff; }
+.activation-tabs button[aria-pressed=true] { color: #76529d; border-color: #bca6d8; background: #efe7fa; }
+.activation-svg { display: block; width: 100%; height: auto; }
+.plot-background { fill: #faf9fe; }.plot-grid { stroke: #ede8f5; stroke-width: 1; }.plot-axis { stroke: #c2b5d5; stroke-width: 1; }.plot-label { fill: #9e8aaf; font-size: 10px; text-anchor: middle; }
+.activation-curve { fill: none; stroke: #8f76ca; stroke-width: 2.5; }.activation-point { fill: #8b61bd; stroke: white; stroke-width: 2; }.plot-guide { stroke: #b9a3d5; stroke-dasharray: 4 4; }
+.activation-values { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 22px; color: #9b84ae; font-size: 12px; margin: 10px 0 17px; }
+.activation-values strong { color: #806198; margin-left: 7px; }
+.neuron-challenges { margin-top: 24px; scroll-margin-top: 24px; }
+.challenge-count { font-size: 12px; color: #957cb0; white-space: nowrap; padding: 6px 10px; background: #f3edf9; border-radius: 6px; }
+.challenge-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); align-items: start; gap: 18px; margin-top: 22px; }
+.neuron-challenge { min-width: 0; padding: 21px 18px; border: 1px solid #e9e0f2; border-radius: 11px; background: #fdfbff; }
+.neuron-challenge h3 { font-size: 15px; color: #79618e; margin: 10px 0; }
+.neuron-challenge > p { color: #9986a8; font-size: 12px; line-height: 1.9; margin-bottom: 20px; }
+.challenge-fixed { display: flex; flex-direction: column; gap: 8px; color: #947aa8; font-size: 11px; padding: 12px; background: #f5effb; border-radius: 7px; margin-bottom: 18px; line-height: 1.8; }
+.challenge-fixed strong { font-weight: 550; }
+.challenge-parameters { display: grid; gap: 17px; }
+.challenge-parameters .parameter-field label { font-size: 12px; }.challenge-parameters .parameter-field input[type=number] { width: 72px; font-size: 12px; }
+.challenge-current { display: flex; flex-direction: column; align-items: center; gap: 8px; color: #9b80b0; font-size: 12px; padding: 14px; margin: 20px 0; background: #f5effb; border-radius: 8px; }
+.challenge-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+.challenge-actions .button { font-size: 11px; padding-inline: 11px; }
+.challenge-feedback { font-size: 12px; line-height: 1.9; border-radius: 8px; padding: 13px; margin-top: 17px; overflow-wrap: anywhere; }
+.challenge-feedback.correct { color: #58836a; background: #edf6ef; }.challenge-feedback.incorrect { color: #a67754; background: #fff3e8; }
+.challenge-feedback p { margin-top: 7px; }
+.lab-scope-note { color: #a18eaf; font-size: 11px; line-height: 1.9; text-align: center; margin: 24px 0 10px; }
+@keyframes neuron-glow { from { fill: #f6f1ff; } to { fill: #e6dcf9; } }
+@media(max-width:1200px) { .neuron-workbench { grid-template-columns: minmax(0,1fr) 280px; gap: 16px; }.neuron-workbench .panel { padding: 20px; }.challenge-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }.neuron-challenge:last-child { grid-column: 1/-1; }.challenge-parameters { grid-template-columns: repeat(3,minmax(0,1fr)); }.challenge-parameters .parameter-field > div { flex-wrap: wrap; }.neuron-lab-intro { padding: 22px; } }
+@media(max-width:1000px) { .neuron-workbench { grid-template-columns: 1fr; grid-template-areas: "parameters" "graph" "steps" "activation"; }.input-pairs { grid-template-columns: repeat(2,minmax(0,1fr)); }.neuron-lab-intro { flex-wrap: wrap; }.lab-live-result { flex-grow: 1; justify-content: center; }.lab-preset-area { grid-template-columns: 1fr auto; align-items: end; }.seed-control { grid-template-columns: 1fr 1fr; align-items: end; }.seed-control p { grid-column: 1/-1; } }
+@media(max-width:650px) { .neuron-lab-intro { padding: 22px 18px; }.neuron-lab-intro h2 { font-size: 19px; }.neuron-lab-intro p { font-size: 11px; }.lab-jump-links { gap: 8px; }.lab-jump-links a { padding: 7px 9px; font-size: 11px; }.input-pairs { grid-template-columns: 1fr; }.input-pair { padding: 14px; }.neuron-parameters .parameter-field > div { flex-wrap: nowrap; }.neuron-parameters .parameter-field input[type=number] { width: 64px; }.lab-preset-area, .seed-control { grid-template-columns: 1fr; }.seed-control p { grid-column: auto; }.forward-timeline { grid-template-columns: repeat(2,minmax(0,1fr)); }.challenge-grid { grid-template-columns: 1fr; }.neuron-challenge:last-child { grid-column: auto; }.challenge-parameters { grid-template-columns: 1fr; }.challenge-parameters .parameter-field > div { flex-wrap: nowrap; }.neuron-challenges { padding: 21px 16px; }.neuron-workbench h2, .neuron-challenges h2 { font-size: 17px; }.lab-panel-heading { align-items: start; flex-wrap: wrap; }.graph-zoom { margin-left: auto; }.forward-controls label { flex-basis: 100%; margin-top: 5px; }.lab-live-result strong, .lab-live-result output { font-size: 27px; } }
+@media(max-width:360px) { .neuron-parameters .parameter-field > div { flex-wrap: wrap; }.lab-select-row { grid-template-columns: 1fr; } }

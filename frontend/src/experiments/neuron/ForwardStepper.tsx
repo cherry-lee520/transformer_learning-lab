@@ -1,0 +1,11 @@
+import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw } from 'lucide-react';
+import type { NeuronComputation } from '../../services/neuronMath';
+import { MathFormula } from '../../components/lesson/MathFormula';
+import { forwardSteps } from './steps';
+import type { useForwardPlayer } from './useForwardPlayer';
+export function ForwardStepper({ result, player }: { result: NeuronComputation; player: ReturnType<typeof useForwardPlayer> }) {
+  const steps = forwardSteps(result), current = steps[player.step - 1];
+  return <section className="panel forward-panel" id="neuron-steps" aria-labelledby="steps-heading"><span className="eyebrow">FOLLOW THE INFORMATION</span><h2 id="steps-heading">一步一步，完成前向传播</h2><ol className="forward-timeline">{steps.map((step, index) => <li key={step.title} aria-current={player.step === index + 1 ? 'step' : undefined}><button onClick={() => player.go(index + 1)} aria-label={`转到第 ${index + 1} 步：${step.title}`}><span>{index + 1}</span>{step.title}</button></li>)}</ol><div className="forward-current" role="status" aria-label="当前计算步骤" data-step={player.step}><h3>第 {player.step} 步 · {current.title}</h3><MathFormula key={player.step} latex={current.latex} display label={current.title} /><p>{current.explanation}</p></div>
+    <div className="forward-controls"><button className="button secondary" disabled={player.step === 1} onClick={() => player.go(player.step - 1)}><ArrowLeft size={15} />上一步</button><button className="button secondary" disabled={player.step === 6} onClick={() => player.go(player.step + 1)}>下一步<ArrowRight size={15} /></button><button className="button primary" onClick={player.playing ? player.pause : player.play}>{player.playing ? <Pause size={15} /> : <Play size={15} />}{player.playing ? '暂停播放' : '自动播放'}</button><button className="button secondary" onClick={player.reset}><RotateCcw size={15} />重置步骤</button><label>播放速度<select aria-label="播放速度" value={player.speed} onChange={event => player.changeSpeed(Number(event.target.value))}><option value="0.5">0.5× · 慢速</option><option value="1">1× · 正常</option><option value="2">2× · 快速</option></select></label></div><p className="lab-muted">参数改变会回到第 1 步；减少动态效果偏好会关闭图形动效，仍可逐步计算。</p>
+  </section>;
+}

@@ -1,0 +1,13 @@
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { DEFAULT_CONFIG, DEFAULT_VOCABULARY, initializeTransformer, forwardTransformer } from '../../frontend/src/services/transformer/model.ts';
+const config={...DEFAULT_CONFIG},parameters=initializeTransformer(config,DEFAULT_VOCABULARY.tokens.length);
+parameters.encoders[0].norm1.gamma[0]=1.3;
+parameters.encoders[0].norm1.beta[1]=-.2;
+parameters.decoders[0].ffn.b1[0]=.4;
+const source=[4,5,6],target=[2,7],r=forwardTransformer(config,parameters,source,target);
+const expected={source_input:r.source.output,target_input:r.target.output,memory:r.memory,output:r.output,logits:r.logits,probabilities:r.probabilities};
+r.encoders.forEach((layer,i)=>{for(const key of ['input','output'])expected['encoder.'+i+'.'+key]=layer[key];for(const key of ['self','norm1','ffn','norm2'])expected['encoder.'+i+'.'+key]=layer[key].output;layer.self.heads.forEach((head,h)=>expected['encoder.'+i+'.weights.'+h]=head.weights);});
+r.decoders.forEach((layer,i)=>{for(const key of ['input','output'])expected['decoder.'+i+'.'+key]=layer[key];for(const key of ['self','norm1','cross','norm2','ffn','norm3'])expected['decoder.'+i+'.'+key]=layer[key].output;for(const key of ['self','cross'])layer[key].heads.forEach((head,h)=>expected['decoder.'+i+'.'+key+'.weights.'+h]=head.weights);});
+const directory=new URL('../tests/fixtures/',import.meta.url);mkdirSync(directory,{recursive:true});
+writeFileSync(new URL('t09-reference.json',directory),JSON.stringify({schemaVersion:1,note:'Actual T09 TypeScript output, explicit parameters; not seed-equivalence.',config,vocabulary:DEFAULT_VOCABULARY.tokens,source,target,parameters,expected},null,2)+'\n','utf8');
+console.log('Exported '+Object.keys(expected).length+' actual T09 tensors.');

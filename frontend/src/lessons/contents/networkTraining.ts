@@ -1,0 +1,45 @@
+import type { StructuredLessonContent } from '../contentTypes';
+import { activationGuide } from './activationGuide';
+export const networkTrainingLesson: StructuredLessonContent = {
+  kind:'structured',version:1,lessonId:'loss-training',
+  intro:'将多个神经元连接成小型多层感知机，再用损失和梯度调整它。我们以四个 XOR 样本为例，把一次预测与一次学习分开观察。',
+  objectives:['认识 MLP 的输入、隐藏层与输出层','读懂矩阵前向传播和张量维度','区分 MSE 与二分类 BCE','理解反向传播与 SGD 的不同职责','用真实训练观察 XOR，而不是记住预设答案'],
+  blocks:[
+    {id:'nn-lesson-mlp',type:'heading',level:2,title:'多层感知机：把神经元连起来'},
+    {id:'nn-lesson-structure',type:'text',paragraphs:[['MLP 是多层感知机。每个隐藏层把上一层的多个数字变为一组新特征，最后由输出层产生预测。我们先使用 2 个输入、4 个隐藏神经元、1 个输出；隐藏层用 Tanh，输出层用 Sigmoid。'],['权重不是答案表。网络对不同输入执行同一组计算，训练只改变这些计算中的参数。']]},
+    {id:'nn-lesson-forward-heading',type:'heading',level:2,title:'用列向量读懂一次前向传播'},
+    {id:'nn-lesson-forward',type:'formula',latex:'z^{[l]}=W^{[l]}a^{[l-1]}+b^{[l]},\\quad a^{[l]}=f(z^{[l]})',label:'矩阵前向传播：先线性变换，再激活',symbols:[{id:'nn-layer-w',latex:'W^{[l]}',label:'权重矩阵',description:'形状为当前层神经元数 × 上一层神经元数。每行对应当前层的一个神经元。'},{id:'nn-layer-a',latex:'a^{[l]}',label:'激活输出列向量',description:'形状为当前层神经元数 × 1。a[0] 是原始输入。'}]},
+    {id:'nn-lesson-shapes',type:'text',paragraphs:[['在 2→4→1 网络中，第一层 W 为 4×2，输入为 2×1，偏置为 4×1，所以 z 和 a 都为 4×1。第二层 W 为 1×4，偏置为 1×1，最终得到一个输出。'],['实验中的图形、矩阵和预测使用同一份前向缓存。按层查看时，先看输入，再依次展开 z 与激活输出 a。']]},
+    {id:'nn-lesson-xor-heading',type:'heading',level:2,title:'XOR 为什么需要非线性？'},
+    {id:'nn-lesson-xor',type:'text',paragraphs:[['四个样本是 [0,0]→0、[0,1]→1、[1,0]→1、[1,1]→0。相同类别位于正方形的对角。单个仿射分类器用一条直线划分平面，无法把两组对角点同时分开。'],['隐藏层加入非线性后可以组合出更灵活的边界。但网络是否能学会，仍取决于结构、初始化、学习率和训练过程；不能保证每一种设置都成功。']]},
+    {id:'nn-lesson-loss-heading',type:'heading',level:2,title:'损失：让预测的差距可以比较'},
+    {id:'nn-lesson-mse',type:'formula',latex:'L_{\\mathrm{MSE}}=(\\hat y-y)^2,\\quad L_{\\mathrm{batch}}=\\frac1B\\sum_{s=1}^{B}L_s',label:'单样本平方误差与批量平均；这里不乘二分之一'},
+    {id:'nn-lesson-mse-text',type:'text',paragraphs:[['y 是真实标签，ŷ 是模型预测。本项目的 MSE 是单输出平方误差，不含 1/2；批量训练把各样本的损失取平均，梯度也必须采用同样的平均。']]},
+    {id:'nn-lesson-bce',type:'formula',latex:'L_{\\mathrm{BCE}}=-y\\log\\hat y-(1-y)\\log(1-\\hat y),\\quad \\hat y=\\sigma(z)',label:'Sigmoid 输出概率与二分类交叉熵'},
+    {id:'nn-lesson-bce-text',type:'text',paragraphs:[['对于二分类，Sigmoid 把输出解释为类别 1 的概率。当 y=1 时，给真实类别的概率越接近 1，BCE 越小；y=0 时则希望概率接近 0。默认 XOR 使用 Sigmoid+BCE。'],['实现从 logit z 稳定计算同一损失，避免直接对舍入到 0 或 1 的概率取对数。没有先裁切概率再使用另一套不一致的梯度。']]},
+    {id:'nn-lesson-train-heading',type:'heading',level:2,title:'训练循环：预测、求导、更新'},
+    {id:'nn-lesson-train',type:'text',paragraphs:[['前向传播得到预测，损失衡量当前差距，反向传播用链式法则求出每个参数的梯度，SGD 再沿梯度的反方向更新参数。反向传播负责求导，SGD 负责更新，两者不是同一个步骤。']],bullets:[['单步训练：对一个训练批执行一次前向、反向和参数更新。'],['Epoch：完整遍历数据的次数；批量小于 4 时，多次更新才构成一个 XOR Epoch。'],['Loss 曲线记录更新后的全数据平均损失；单次 SGD 更新并不保证它下降。']]},
+    {id:'nn-lesson-sgd',type:'formula',latex:'W_{\\mathrm{new}}=W-\\eta\\frac{\\partial L_{\\mathrm{batch}}}{\\partial W},\\quad b_{\\mathrm{new}}=b-\\eta\\frac{\\partial L_{\\mathrm{batch}}}{\\partial b}',label:'基础 SGD 的参数更新'},
+    {id:'nn-lesson-try',type:'callout',tone:'tip',title:'把过程展开来看',text:'先执行一次前向传播，再做单步训练，展开快照里的 W、delta、dL/dW 和更新后的参数。最后恢复默认 XOR 预设，连续训练并观察四个样本和二维概率边界。',relatedExperimentId:'neural-network'},
+    {id:'nn-lesson-limit',type:'callout',tone:'info',title:'实验成功的边界',text:'默认种子和超参数经过实际收敛测试；其他设置可能失败。四个训练样本全部分类正确不等于泛化能力已验证。实验状态刷新后重置，课时完成仍由你手动标记。'},
+  ],
+};
+export const backpropTrainingLesson: StructuredLessonContent = {
+  ...activationGuide,
+  intro:'先观察激活函数与输入梯度，再把链式法则用于每个网络参数。前半节保留 T05 实验引导，后半节连接 T06 的手写反向传播与 SGD。',
+  objectives:[...activationGuide.objectives,'区分输入梯度、误差信号与参数梯度','理解 Sigmoid+BCE 合并求导和训练次梯度约定','通过中心差分核对反向传播'],
+  blocks:[...activationGuide.blocks,
+    {id:'nn-bp-heading',type:'heading',level:2,title:'从输入导数走向参数梯度'},
+    {id:'nn-bp-delta-text',type:'text',paragraphs:[['T05 观察输出对输入的变化率。训练还需要知道：改变每个权重和偏置，损失怎样变化。把损失对每层激活前数值 z 的梯度称为误差信号 delta。它按输出层到隐藏层的顺序传递。']]},
+    {id:'nn-bp-delta',type:'formula',latex:'\\delta^{[L]}=\\frac{\\partial L}{\\partial a^{[L]}}\\odot f\\prime(z^{[L]}),\\quad \\delta^{[l]}=(W^{[l+1]})^T\\delta^{[l+1]}\\odot f\\prime(z^{[l]})',label:'输出层和隐藏层的反向误差信号'},
+    {id:'nn-bp-parameters',type:'formula',latex:'\\frac{\\partial L}{\\partial W^{[l]}}=\\delta^{[l]}(a^{[l-1]})^T,\\quad \\frac{\\partial L}{\\partial b^{[l]}}=\\delta^{[l]}',label:'由 delta 和前向输入得到单样本参数梯度'},
+    {id:'nn-bp-shape',type:'text',paragraphs:[['如果当前层有 n 个神经元、上一层有 m 个，delta 是 n×1，上一层输出转置是 1×m，外积得到 n×m 的权重梯度；偏置梯度是 n×1，形状与原参数完全匹配。批量梯度是这些单样本梯度的平均。']]},
+    {id:'nn-bp-bce',type:'formula',latex:'\\left(-\\frac{y}{\\hat y}+\\frac{1-y}{1-\\hat y}\\right)\\hat y(1-\\hat y)=\\hat y-y',label:'Sigmoid 与 BCE 的链式乘积可以化简为预测减标签'},
+    {id:'nn-bp-bce-text',type:'text',paragraphs:[['上式先对 BCE 的概率求导，再乘 Sigmoid 的导数；共同因子约去后，输出层 delta 可直接写成 ŷ−y。实现用 z 的稳定等价形式，避免端点相除。MSE 则用 2(ŷ−y)，再乘所选输出激活函数的导数。']]},
+    {id:'nn-bp-relu',type:'callout',tone:'warning',title:'数学导数与训练约定分开',text:'ReLU 在零点没有数学导数，T05 仍明确显示未定义。T06 的训练接口单独选择零点次梯度 0；这不是证明零点可导。普通中心差分检查跳过命中或跨越 ReLU 零点的情况。'},
+    {id:'nn-bp-check',type:'formula',latex:'\\frac{\\partial L}{\\partial\\theta}\\approx\\frac{L(\\theta+\\varepsilon)-L(\\theta-\\varepsilon)}{2\\varepsilon}',label:'光滑点上的中心差分数值梯度检查'},
+    {id:'nn-bp-check-text',type:'text',paragraphs:[['数值检查将同一个批量损失分别用稍大和稍小的参数重新计算，再与手写反向传播比较。它用于验证实现，不替代实际训练中的解析求导。实验固定 ε=10⁻⁵，并展示每个参数的误差。']]},
+    {id:'nn-bp-enter',type:'callout',tone:'tip',title:'检查一次真实参数更新',text:'进入训练实验，单步执行 SGD；先看选中样本的 delta，再看整个批量的平均 dW/db。固定一个历史快照后继续训练，比较快照与当前模型，避免把两个时间点的数据混在一起。',relatedExperimentId:'neural-network'},
+  ],
+};
+

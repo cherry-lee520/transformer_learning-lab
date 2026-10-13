@@ -1,0 +1,13 @@
+.at-workbench .at-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:start; }
+.at-workbench .at-editor { border:1px solid #eee7f7; padding:12px; border-radius:11px; background:#fcfaff; }
+.at-matrix td.at-highlight { background:#f0e6ff; color:#6743a8; }.at-matrix td button { color:inherit; width:100%; border:0; background:transparent; padding:4px 7px; cursor:pointer; border-radius:4px; }.at-matrix td button:hover { background:#e3d4fc; }
+.at-matrix td { padding:7px 9px; }.at-matrix th { max-width:150px; overflow:hidden; text-overflow:ellipsis; }
+.at-check { display:flex; align-items:center; gap:9px; font-size:12px; color:#705482; line-height:1.7; padding:10px 0; }.at-workbench .at-check input { width:17px; flex:none; accent-color:#7965cf; }
+.at-workbench .lr-field small { line-height:1.7; color:#937f9e; }.at-workbench .at-step-output { border-left:3px solid #9b7cdb; padding-left:15px; }
+.at-current-step { border-color:#cbb6ed; }.at-workbench .at-grid > details { margin-top:0; }
+.at-heatmap { display:block; width:100%; max-height:1100px; }.at-heatmap text { font-size:11px; fill:#66527c; }.at-heatmap g[role=button] { cursor:pointer; }.at-heatmap g[role=button]:hover rect { stroke:#35214c; stroke-width:2; }.at-heatmap g[role=button]:focus-visible rect { stroke:#35214c; stroke-width:3; }.at-token-links { min-width:480px; width:100%; display:block; }.at-token-links text { font-size:12px; fill:#705a84; }
+.at-bars { display:grid; gap:10px; margin:20px 0; }.at-bars > div { display:grid; grid-template-columns:22px minmax(0,1fr) 90px; align-items:center; gap:10px; font-size:12px; color:#7b6492; }.at-bar-track { background:#f0ebf7; border-radius:5px; height:15px; overflow:hidden; }.at-bar-track i { display:block; height:100%; background:linear-gradient(90deg,#a28cde,#7161c9); border-radius:5px; }.at-bars output { text-align:right; }
+.at-head-summary { display:flex; flex-wrap:wrap; gap:10px; margin:20px 0; }.at-head-summary button { display:grid; gap:7px; border:1px solid #dfd2f1; border-radius:10px; padding:15px; color:#72548c; background:#fcfaff; }.at-head-summary button[aria-pressed=true] { background:#eee5ff; border-color:#a78bd4; }.at-head-summary span { font-size:11px; }
+.at-workbench .quiz-card { margin:22px 0; }.at-workbench .lr-stats span { overflow-wrap:anywhere; max-width:100%; }
+@media(max-width:1100px) { .at-workbench .at-grid { grid-template-columns:1fr; } }
+@media(prefers-reduced-motion:reduce) { .at-workbench *, .at-workbench *::before, .at-workbench *::after { transition:none!important; animation:none!important; } }

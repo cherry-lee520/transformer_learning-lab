@@ -1,0 +1,83 @@
+
+> transformer-learning-lab@0.1.0 test:e2e
+> playwright test attention.spec.ts
+
+[WebServer] (node:56900) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 36 tests using 3 workers
+
+(node:60928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65704) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:60928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65704) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  3 [desktop] › ..\tests\attention.spec.ts:18:5 › WQ 编辑、投影点积行列高亮、非法草稿隔离与种子复现 (4.9s)
+  ok  1 [desktop] › ..\tests\attention.spec.ts:9:5 › 正式入口、默认投影、查询兼容、刷新与安全返回 (5.3s)
+  ok  4 [desktop] › ..\tests\attention.spec.ts:38:5 › 缩放开关影响实际权重，Softmax 示范可调分数与 dk (1.7s)
+  ok  5 [desktop] › ..\tests\attention.spec.ts:46:5 › Heatmap 点击与键盘、Query 切换、真实 Value 贡献求和 (1.5s)
+  ok  7 [desktop] › ..\tests\attention.spec.ts:63:5 › Causal Mask 真实排除未来，切回无 Mask 恢复非零分布 (1.5s)
+  ok  6 [desktop] › ..\tests\attention.spec.ts:54:5 › 多头独立参数、Concat、WO、Head 数量和 d_model (1.7s)
+  ok  2 [desktop] › ..\tests\attention.spec.ts:29:5 › 九步矩阵、逐行 Softmax、播放暂停速度与上游修改重置 (8.8s)
+  ok  8 [desktop] › ..\tests\attention.spec.ts:71:5 › 从 T07 传递真实矩阵，Token/ID/数值不变，刷新恢复并返回来源 (3.2s)
+  ok  9 [desktop] › ..\tests\attention.spec.ts:78:5 › 损坏和缺失输入回退、JSON 校验、存储拒绝与不覆盖进度 (3.9s)
+  ok 11 [desktop] › ..\tests\attention.spec.ts:94:5 › 六项挑战提交正误、容限、解析、重试与完成状态隔离 (2.1s)
+(node:65036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 10 [desktop] › ..\tests\attention.spec.ts:87:5 › 四节教材真实公式、实验往返和学习进度保留 (9.0s)
+  ok 12 [desktop] › ..\tests\attention.spec.ts:101:5 › 七模块四种宽度无页面溢出，键盘和减少动态效果，真实截图 (6.0s)
+(node:50008) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50008) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 13 [tablet] › ..\tests\attention.spec.ts:9:5 › 正式入口、默认投影、查询兼容、刷新与安全返回 (3.7s)
+  ok 14 [tablet] › ..\tests\attention.spec.ts:18:5 › WQ 编辑、投影点积行列高亮、非法草稿隔离与种子复现 (2.4s)
+  ok 16 [tablet] › ..\tests\attention.spec.ts:38:5 › 缩放开关影响实际权重，Softmax 示范可调分数与 dk (1.7s)
+  ok 17 [tablet] › ..\tests\attention.spec.ts:46:5 › Heatmap 点击与键盘、Query 切换、真实 Value 贡献求和 (1.5s)
+  ok 18 [tablet] › ..\tests\attention.spec.ts:54:5 › 多头独立参数、Concat、WO、Head 数量和 d_model (2.0s)
+  ok 19 [tablet] › ..\tests\attention.spec.ts:63:5 › Causal Mask 真实排除未来，切回无 Mask 恢复非零分布 (1.5s)
+  ok 20 [tablet] › ..\tests\attention.spec.ts:71:5 › 从 T07 传递真实矩阵，Token/ID/数值不变，刷新恢复并返回来源 (2.6s)
+  ok 15 [tablet] › ..\tests\attention.spec.ts:29:5 › 九步矩阵、逐行 Softmax、播放暂停速度与上游修改重置 (6.5s)
+  ok 21 [tablet] › ..\tests\attention.spec.ts:78:5 › 损坏和缺失输入回退、JSON 校验、存储拒绝与不覆盖进度 (3.5s)
+  ok 23 [tablet] › ..\tests\attention.spec.ts:94:5 › 六项挑战提交正误、容限、解析、重试与完成状态隔离 (2.0s)
+(node:65908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 24 [tablet] › ..\tests\attention.spec.ts:101:5 › 七模块四种宽度无页面溢出，键盘和减少动态效果，真实截图 (5.1s)
+(node:66616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 25 [mobile] › ..\tests\attention.spec.ts:9:5 › 正式入口、默认投影、查询兼容、刷新与安全返回 (3.7s)
+  ok 22 [tablet] › ..\tests\attention.spec.ts:87:5 › 四节教材真实公式、实验往返和学习进度保留 (8.8s)
+(node:66616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:67328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 27 [mobile] › ..\tests\attention.spec.ts:18:5 › WQ 编辑、投影点积行列高亮、非法草稿隔离与种子复现 (1.8s)
+(node:67328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 28 [mobile] › ..\tests\attention.spec.ts:46:5 › Heatmap 点击与键盘、Query 切换、真实 Value 贡献求和 (1.3s)
+  ok 26 [mobile] › ..\tests\attention.spec.ts:29:5 › 九步矩阵、逐行 Softmax、播放暂停速度与上游修改重置 (5.3s)
+  ok 29 [mobile] › ..\tests\attention.spec.ts:38:5 › 缩放开关影响实际权重，Softmax 示范可调分数与 dk (2.3s)
+  ok 30 [mobile] › ..\tests\attention.spec.ts:54:5 › 多头独立参数、Concat、WO、Head 数量和 d_model (1.8s)
+  ok 31 [mobile] › ..\tests\attention.spec.ts:63:5 › Causal Mask 真实排除未来，切回无 Mask 恢复非零分布 (1.4s)
+  ok 32 [mobile] › ..\tests\attention.spec.ts:71:5 › 从 T07 传递真实矩阵，Token/ID/数值不变，刷新恢复并返回来源 (2.7s)
+  ok 33 [mobile] › ..\tests\attention.spec.ts:78:5 › 损坏和缺失输入回退、JSON 校验、存储拒绝与不覆盖进度 (3.5s)
+  ok 35 [mobile] › ..\tests\attention.spec.ts:94:5 › 六项挑战提交正误、容限、解析、重试与完成状态隔离 (1.9s)
+  ok 34 [mobile] › ..\tests\attention.spec.ts:87:5 › 四节教材真实公式、实验往返和学习进度保留 (8.8s)
+  ok 36 [mobile] › ..\tests\attention.spec.ts:101:5 › 七模块四种宽度无页面溢出，键盘和减少动态效果，真实截图 (7.8s)
+
+  36 passed (58.1s)

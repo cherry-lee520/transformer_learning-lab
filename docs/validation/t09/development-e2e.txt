@@ -1,0 +1,30 @@
+
+Running 13 tests using 3 workers
+
+(node:184944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:179064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:184944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:179064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [desktop] › ..\tests\transformer.spec.ts:35:5 › 完整与逐步前向、架构模块选择、依赖连线和 KaTeX (4.1s)
+  ok  3 [desktop] › ..\tests\transformer.spec.ts:25:5 › Encoder/Decoder 层数、d_model、Heads、d_ff 及固定种子重建 (4.8s)
+  ok  2 [desktop] › ..\tests\transformer.spec.ts:15:5 › 实验列表/旧查询/安全返回、默认配置与刷新 (5.3s)
+  ok  5 [desktop] › ..\tests\transformer.spec.ts:52:5 › 三种 Attention、Head 切换、不同长度 Cross 与严格 Causal Mask (1.8s)
+  ok  6 [desktop] › ..\tests\transformer.spec.ts:64:5 › FFN 内部、输出元素点积、残差和逐 Token LayerNorm (1.6s)
+  ok  7 [desktop] › ..\tests\transformer.spec.ts:72:5 › 编辑共享 E/FFN/gamma 实时改变真实结果，非法草稿不污染 (1.7s)
+  ok  4 [desktop] › ..\tests\transformer.spec.ts:45:5 › 自动播放、暂停、速度、修改上游后停止并清除过期步骤 (4.3s)
+  ok  8 [desktop] › ..\tests\transformer.spec.ts:80:5 › 输出 Logits、概率和为1、Top-K 与最后前缀位置 (1.5s)
+  ok  9 [desktop] › ..\tests\transformer.spec.ts:88:5 › 前缀未来信息隔离：改变第三个 Token 后前两位置概率不变 (1.6s)
+  ok 10 [desktop] › ..\tests\transformer.spec.ts:94:5 › 输入/词表错误安全处理、未知词和 epsilon 更新 (1.9s)
+  ok 13 [desktop] › ..\tests\transformer.spec.ts:121:5 › 最大配置与最长教学序列可计算，内部滚动和刷新默认提示 (2.8s)
+  ok 12 [desktop] › ..\tests\transformer.spec.ts:110:5 › 五模块 320/390/768/1440 无整页溢出、键盘与减少动态效果 (5.9s)
+  ok 11 [desktop] › ..\tests\transformer.spec.ts:102:5 › T08 及四节教材往返、原进度刷新保留 (10.8s)
+
+  13 passed (22.5s)

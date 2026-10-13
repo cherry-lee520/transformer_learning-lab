@@ -1,0 +1,39 @@
+{
+  "name": "transformer-learning-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": "^22.12.0 || >=24.0.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:lan": "vite --host 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --import tsx --test ../tests/unit/catalog.test.mjs ../tests/unit/progress.test.mjs ../tests/unit/storage.test.mjs ../tests/unit/content.test.mjs ../tests/unit/textbook.test.mjs ../tests/unit/neuron-lab.test.mjs ../tests/unit/activation-lab.test.mjs ../tests/unit/mlp.test.mjs ../tests/unit/language.test.mjs ../tests/unit/attention.test.mjs ../tests/unit/transformer.test.mjs",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "katex": "0.19.0",
+    "lucide-react": "0.468.0",
+    "prismjs": "1.30.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-router-dom": "7.18.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@tailwindcss/vite": "4.1.14",
+    "@types/prismjs": "1.26.6",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@vitejs/plugin-react": "5.0.4",
+    "tailwindcss": "4.1.14",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vite": "7.3.7"
+  }
+}

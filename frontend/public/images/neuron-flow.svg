@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="150" viewBox="0 0 720 150" role="img" aria-labelledby="title desc">
+  <title id="title">线性神经元计算路径</title><desc id="desc">输入 x，乘权重 w，加偏置 b，得到 y，再可接激活函数</desc>
+  <rect width="720" height="150" rx="16" fill="#f7f5fe"/>
+  <g fill="#fff" stroke="#dbd2f2" stroke-width="1.5"><rect x="20" y="40" width="110" height="70" rx="12"/><rect x="165" y="40" width="110" height="70" rx="12"/><rect x="310" y="40" width="110" height="70" rx="12"/><rect x="455" y="40" width="110" height="70" rx="12"/><rect x="600" y="40" width="100" height="70" rx="12" stroke-dasharray="5 4"/></g>
+  <g fill="#716087" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="15" text-anchor="middle"><text x="75" y="80">输入 x</text><text x="220" y="80">乘权重 w</text><text x="365" y="80">加偏置 b</text><text x="510" y="80">线性结果 y</text><text x="650" y="80">激活 f(y)</text></g>
+  <g stroke="#aa95d3" stroke-width="2" fill="none"><path d="M134 75h25m-7-6 7 6-7 6M279 75h25m-7-6 7 6-7 6M424 75h25m-7-6 7 6-7 6M569 75h25m-7-6 7 6-7 6"/></g>
+</svg>

@@ -1,0 +1,221 @@
+import { test, expect } from '../frontend/node_modules/@playwright/test';
+import type { Page } from '../frontend/node_modules/@playwright/test';
+const url = '/laboratory/neuron';
+const storageKey = 'transformer-learning-lab.progress';
+const errors = new WeakMap<Page, string[]>();
+test.beforeEach(({ page }) => {
+  const messages: string[] = []; errors.set(page, messages);
+  page.on('pageerror', error => messages.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') messages.push(message.text()); });
+});
+test.afterEach(({ page }) => expect(errors.get(page)).toEqual([]));
+const output = (page: Page) => page.getByLabel('实验输出', { exact: true });
+const parameter = (page: Page, name: string) => page.getByRole('spinbutton', { name: `实验 ${name}`, exact: true });
+const step = (page: Page) => page.getByRole('status', { name: '当前计算步骤', exact: true });
+
+test('实验直接访问与刷新，各功能区域正常加载', async ({ page }) => {
+  await page.goto(url);
+  await expect(page.getByRole('heading', { level: 1, name: '一个神经元，怎样计算？' })).toBeVisible();
+  await expect(output(page)).toHaveText('7');
+  for (const heading of ['参数控制台', '看见一次计算', '一步一步，完成前向传播', '激活函数，让结果发生什么变化？', '把理解变成三次小挑战']) await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible();
+  await expect(page.locator('.formula-error, .katex-error')).toHaveCount(0);
+  await expect(page.locator('.header-path strong')).toHaveText('探索实验室');
+  await page.reload();
+  await expect(output(page)).toHaveText('7');
+  await expect(step(page)).toHaveAttribute('data-step', '1');
+});
+
+test('真实输入、权重、偏置、图形、公式、激活曲线同步', async ({ page }) => {
+  await page.goto(url);
+  await parameter(page, 'x1 · 输入值').fill('4');
+  await expect(output(page)).toHaveText('13');
+  await expect(page.locator('[data-node="input-0"]')).toHaveAttribute('data-value', '4');
+  await expect(page.locator('[data-node="sum"]')).toHaveAttribute('data-value', '13');
+  await parameter(page, 'w1 · 权重').fill('-2');
+  await expect(output(page)).toHaveText('-7');
+  await expect(page.locator('[data-edge="term-0"]')).toHaveClass(/weight-negative/);
+  await page.getByRole('button', { name: '下一步', exact: true }).click();
+  await expect(step(page)).toHaveAttribute('data-step', '2');
+  await expect(page.locator('.forward-current annotation')).toContainText('= -8');
+  await parameter(page, 'w1 · 权重').fill('0');
+  await expect(output(page)).toHaveText('1');
+  await expect(page.locator('[data-edge="term-0"]')).toHaveClass(/weight-zero/);
+  await parameter(page, 'b · 偏置').fill('-2');
+  await expect(output(page)).toHaveText('-2');
+  await page.getByLabel('激活函数', { exact: true }).selectOption('relu');
+  await expect(output(page)).toHaveText('0');
+  await expect(page.locator('.activation-point')).toHaveAttribute('data-z', '-2');
+  await expect(page.locator('.activation-point')).toHaveAttribute('data-y', '0');
+  await page.getByRole('button', { name: 'Sigmoid', exact: true }).click();
+  await expect(page.getByLabel('激活函数', { exact: true })).toHaveValue('sigmoid');
+  expect(Number(await output(page).textContent())).toBeCloseTo(0.119202922, 6);
+  await page.getByRole('button', { name: 'Tanh', exact: true }).click();
+  expect(Number(await output(page).textContent())).toBeCloseTo(-0.96402758, 6);
+  await page.getByRole('button', { name: 'Linear', exact: true }).click();
+  await expect(output(page)).toHaveText('-2');
+});
+
+test('1～5 输入边界、非法草稿及默认参数恢复', async ({ page }) => {
+  await page.goto(url);
+  await page.getByLabel('输入数量', { exact: true }).selectOption('5');
+  await expect(page.locator('.input-pair')).toHaveCount(5);
+  await expect(page.locator('[data-node^="input-"]')).toHaveCount(5);
+  await expect(output(page)).toHaveText('11');
+  for (const bad of ['11', '', '1e309']) {
+    await parameter(page, 'x1 · 输入值').fill(bad);
+    await expect(parameter(page, 'x1 · 输入值')).toHaveAttribute('aria-invalid', 'true');
+    await expect(output(page)).toHaveText('11');
+    await expect(step(page)).toHaveAttribute('data-step', '1');
+  }
+  await page.getByRole('button', { name: '恢复默认参数', exact: true }).click();
+  await expect(output(page)).toHaveText('7');
+  await expect(page.locator('.input-pair')).toHaveCount(1);
+  await expect(parameter(page, 'x1 · 输入值')).toHaveAttribute('aria-invalid', 'false');
+  await page.getByRole('slider', { name: '实验 x1 输入值滑块', exact: true }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(output(page)).toHaveText('7.3');
+});
+
+test('逐步操作、自动播放/暂停、速度、结束和参数改变重置', async ({ page }) => {
+  await page.goto(url);
+  await expect(page.getByRole('button', { name: '上一步', exact: true })).toBeDisabled();
+  await page.getByRole('button', { name: '下一步', exact: true }).click();
+  await expect(step(page)).toHaveAttribute('data-step', '2');
+  await expect(page.locator('[data-edge="term-0"]')).toHaveClass(/is-active/);
+  await page.getByRole('button', { name: '上一步', exact: true }).click();
+  await expect(step(page)).toHaveAttribute('data-step', '1');
+  await page.getByLabel('播放速度', { exact: true }).selectOption('2');
+  await page.getByRole('button', { name: '自动播放', exact: true }).click();
+  await expect(step(page)).toHaveAttribute('data-step', '2', { timeout: 3000 });
+  await page.getByRole('button', { name: '暂停播放', exact: true }).click();
+  const paused = await step(page).getAttribute('data-step');
+  await page.waitForTimeout(1400);
+  await expect(step(page)).toHaveAttribute('data-step', paused!);
+  await page.getByRole('button', { name: '自动播放', exact: true }).click();
+  await expect(step(page)).toHaveAttribute('data-step', '6', { timeout: 6000 });
+  await expect(page.getByRole('button', { name: '下一步', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: '自动播放', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '自动播放', exact: true }).click();
+  await expect(step(page)).toHaveAttribute('data-step', '1');
+  await parameter(page, 'b · 偏置').fill('2');
+  await expect(output(page)).toHaveText('8');
+  await expect(step(page)).toHaveAttribute('data-step', '1');
+  await expect(page.getByRole('button', { name: '自动播放', exact: true })).toBeVisible();
+  await page.waitForTimeout(1400);
+  await expect(step(page)).toHaveAttribute('data-step', '1');
+  await page.getByRole('button', { name: '下一步', exact: true }).click();
+  await page.getByRole('button', { name: '重置步骤', exact: true }).click();
+  await expect(step(page)).toHaveAttribute('data-step', '1');
+});
+
+test('三项挑战独立提交、正误解析、目标固定、非法值及学习记录隔离', async ({ page }) => {
+  await page.goto(url);
+  await expect(output(page)).toHaveText('7');
+  const before = await page.evaluate(key => localStorage.getItem(key), storageKey);
+  const one = page.locator('[data-challenge="predict-linear"]');
+  await one.getByRole('spinbutton').fill('6');
+  await one.getByRole('button', { name: '提交检查' }).click();
+  await expect(one.getByRole('status')).toContainText('还差一点');
+  await expect(one.getByRole('status')).toContainText('z = 7');
+  await one.getByRole('spinbutton').fill('7');
+  await one.getByRole('button', { name: '提交检查' }).click();
+  await expect(one.getByRole('status')).toContainText('挑战完成');
+  const two = page.locator('[data-challenge="predict-relu"]');
+  await two.getByRole('spinbutton').fill('0');
+  await two.getByRole('button', { name: '提交检查' }).click();
+  await expect(two.getByRole('status')).toContainText('挑战完成');
+  await expect(page.locator('.challenge-count')).toHaveText('已完成 2/3');
+  await parameter(page, 'b · 偏置').fill('0');
+  await expect(output(page)).toHaveText('6');
+  await expect(page.locator('.challenge-count')).toHaveText('已完成 2/3');
+  const three = page.locator('[data-challenge="tune-target"]');
+  await expect(three.getByRole('spinbutton')).toHaveCount(3);
+  await three.getByRole('spinbutton', { name: '挑战三 w1 · 权重', exact: true }).fill('3');
+  await three.getByRole('spinbutton', { name: '挑战三 w2 · 权重', exact: true }).fill('0');
+  await expect(three.getByLabel('挑战三当前输出', { exact: true })).toHaveText('6');
+  await expect(page.locator('.challenge-count')).toHaveText('已完成 2/3');
+  await three.getByRole('button', { name: '提交检查' }).click();
+  await expect(three.locator('.challenge-feedback[role="status"]')).toContainText('挑战完成');
+  await expect(page.locator('.challenge-count')).toHaveText('已完成 3/3');
+  expect(await page.evaluate(key => localStorage.getItem(key), storageKey)).toBe(before);
+  await three.getByRole('spinbutton', { name: '挑战三 w1 · 权重', exact: true }).fill('11');
+  await expect(three.getByRole('button', { name: '提交检查' })).toBeDisabled();
+  await expect(page.locator('.challenge-count')).toHaveText('已完成 2/3');
+  await three.getByRole('button', { name: '重新挑战' }).click();
+  await expect(three.getByRole('button', { name: '提交检查' })).toBeEnabled();
+  await page.reload();
+  await expect(page.locator('.challenge-count')).toHaveText('已完成 0/3');
+});
+
+test('教学示例和固定种子随机生成可重复，仍保持有效计算', async ({ page }) => {
+  await page.goto(url);
+  await page.getByLabel('教学示例', { exact: true }).selectOption('multiple-inputs');
+  await expect(output(page)).toHaveText('3');
+  await expect(page.getByLabel('输入数量', { exact: true })).toHaveValue('3');
+  await page.getByLabel('教学示例', { exact: true }).selectOption('negative-relu');
+  await expect(output(page)).toHaveText('0');
+  await expect(page.getByLabel('激活函数', { exact: true })).toHaveValue('relu');
+  await page.getByLabel('随机种子', { exact: true }).fill('42');
+  await page.getByRole('button', { name: '生成随机参数', exact: true }).click();
+  const values = await page.locator('.neuron-parameters input[type=number]').evaluateAll(nodes => nodes.map(node => (node as HTMLInputElement).value));
+  await parameter(page, 'x1 · 输入值').fill('9');
+  await page.getByRole('button', { name: '生成随机参数', exact: true }).click();
+  expect(await page.locator('.neuron-parameters input[type=number]').evaluateAll(nodes => nodes.map(node => (node as HTMLInputElement).value))).toEqual(values);
+  await page.getByLabel('随机种子', { exact: true }).fill('1.5');
+  await expect(page.getByRole('button', { name: '生成随机参数', exact: true })).toBeDisabled();
+  await page.getByRole('button', { name: '恢复默认参数', exact: true }).click();
+  await expect(output(page)).toHaveText('7');
+});
+
+test('教材进入实验并返回原课时，完成状态与 T03 小演示保留', async ({ page }) => {
+  await page.goto('/lessons/neuron-forward');
+  await page.getByRole('button', { name: '标记课时完成' }).click();
+  await page.getByRole('link', { name: '进入完整神经元实验室', exact: true }).click();
+  await expect(page).toHaveURL('/laboratory/neuron?from=neuron-forward');
+  await expect(output(page)).toHaveText('7');
+  await page.reload();
+  await page.getByRole('link', { name: '返回原课时', exact: true }).click();
+  await expect(page).toHaveURL('/lessons/neuron-forward');
+  await expect(page.getByRole('button', { name: '撤销完成' })).toBeVisible();
+  await expect(page.getByLabel('神经元输出', { exact: true })).toHaveText('7');
+});
+
+test('实验列表、旧查询入口、无效 ID 与安全返回地址', async ({ page }) => {
+  await page.goto('/laboratory');
+  await page.getByRole('link', { name: '进入神经元实验室', exact: true }).click();
+  await expect(page).toHaveURL(url);
+  await page.getByRole('link', { name: '返回实验列表', exact: true }).click();
+  await page.getByRole('link', { name: '进入实验预览', exact: true }).first().click();
+  await expect(page).toHaveURL('/laboratory?experiment=vector#experiment-preview');
+  await expect(page.getByText('实验交互将在后续任务中开放')).toBeVisible();
+  await page.goto('/laboratory?experiment=neuron&from=attention');
+  await expect(page).toHaveURL('/laboratory/neuron?from=attention');
+  await expect(page.getByRole('link', { name: '返回原课时', exact: true })).toHaveAttribute('href', '/lessons/attention');
+  await page.goto('/laboratory/no-such-experiment');
+  await page.reload();
+  await expect(page.getByRole('heading', { name: '找不到这个实验', exact: true })).toBeVisible();
+  await page.goto('/laboratory?experiment=invalid-id');
+  await expect(page.getByRole('alert')).toContainText('找不到这个实验');
+  await page.goto('/laboratory/neuron?from=https%3A%2F%2Fexample.com');
+  await expect(page.getByRole('link', { name: '返回原课时', exact: true })).toHaveAttribute('href', '/lessons/neuron-forward');
+});
+
+test('键盘节点、缩放、减少动画与手机布局无页面横向溢出', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(url);
+  await page.getByLabel('输入数量', { exact: true }).selectOption('5');
+  await page.getByRole('button', { name: '输入 x1：2', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.node-explanation')).toContainText('输入 x1');
+  expect(await page.locator('[data-node="input-0"] .node-shape').evaluate(element => getComputedStyle(element).animationName)).toBe('none');
+  await page.evaluate(() => document.fonts.ready);
+  await page.locator('.neuron-graph-panel').screenshot({ path: `../docs/screenshots/t04/${testInfo.project.name}-graph.png`, animations: 'disabled' });
+  await page.locator('.activation-panel').screenshot({ path: `../docs/screenshots/t04/${testInfo.project.name}-activation.png`, animations: 'disabled' });
+  await page.locator('.neuron-challenges').screenshot({ path: `../docs/screenshots/t04/${testInfo.project.name}-challenges.png`, animations: 'disabled' });
+  await page.getByRole('button', { name: '放大结构图', exact: true }).click();
+  expect(await page.locator('.graph-scroll').evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.setViewportSize({ width: 320, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await expect(page.getByLabel('输入数量', { exact: true })).toHaveValue('5');
+});

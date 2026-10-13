@@ -1,0 +1,47 @@
+.nn-return-links {display:flex;flex-wrap:wrap;gap:22px;margin-bottom:20px;}
+.nn-hero {display:flex;gap:22px;align-items:center;padding:27px;border:1px solid #dfd9f3;border-radius:16px;background:linear-gradient(110deg,#eeebfc,#edf5ff);color:#8069ad;margin-bottom:25px;}
+.nn-hero svg {flex-shrink:0;}.nn-hero h2 {font-size:20px;line-height:1.7;margin:12px 0;color:#57416e;}.nn-hero p {font-size:12px;line-height:1.9;color:#826e94;}
+.nn-laboratory,.nn-main-column {display:grid;gap:24px;min-width:0;}
+.nn-laboratory .panel {min-width:0;}.nn-laboratory h2 {font-size:20px;line-height:1.7;margin:10px 0;color:#55416e;}.nn-laboratory h3 {font-size:14px;line-height:1.8;margin:15px 0;color:#71518b;}
+.nn-caption {font-size:11px;line-height:1.9;color:#816d93;margin:12px 0;overflow-wrap:anywhere;}
+.nn-section-head {display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;}
+.nn-status,.nn-accuracy {padding:8px 12px;border-radius:8px;background:#eee7f8;color:#7b5c9b;font-size:12px;}
+.nn-status.running {background:#e8f2fa;color:#5684a7;}.nn-status.error {background:#fff0e8;color:#a77253;}.nn-accuracy.success {background:#e7f3ec;color:#629077;}
+.nn-metrics {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin:22px 0;padding:20px;background:#faf7fe;border-radius:11px;border:1px solid #eee6f7;}
+.nn-metrics>div {min-width:0;}.nn-metrics span {display:block;color:#8b749b;font-size:10px;line-height:1.8;margin-bottom:9px;}.nn-metrics strong {font-size:21px;color:#795794;overflow-wrap:anywhere;font-weight:600;}
+.nn-metrics.compact {grid-template-columns:repeat(4,minmax(0,1fr));padding:16px;}.nn-metrics.compact strong {font-size:16px;}
+.nn-training-buttons,.nn-step-buttons {display:flex;flex-wrap:wrap;gap:10px;margin:18px 0;}.nn-laboratory .button {font-size:11px;padding:10px 13px;}
+.nn-operation-note {font-size:12px;line-height:1.9;background:#f1ebfa;border-radius:8px;color:#7a5a95;padding:13px 16px;overflow-wrap:anywhere;}
+.nn-workspace {display:grid;grid-template-columns:245px minmax(0,1fr);gap:24px;align-items:start;}
+.nn-controls {display:grid;gap:17px;padding:23px 19px;}.nn-controls h2,.nn-controls h3,.nn-controls p {margin:0;}.nn-controls hr {border:0;border-top:1px solid #e9e1f2;width:100%;margin:4px 0;}
+.nn-laboratory label {color:#745c89;font-size:12px;line-height:1.8;}.nn-laboratory select,.nn-integer>input {display:block;width:100%;max-width:100%;min-width:0;padding:9px 10px;border:1px solid #ddd0ec;border-radius:7px;background:white;color:#76568f;font:inherit;margin-top:7px;}
+.nn-controls .parameter-field>div {gap:6px;flex-wrap:wrap;}.nn-controls .parameter-field input[type=number] {width:82px;font-size:12px;}.nn-control-buttons {display:grid;gap:9px;}
+.nn-network-layout {display:grid;grid-template-columns:minmax(0,1fr);gap:20px;}.nn-graph-scroll,.nn-chart-scroll,.nn-boundary-scroll {max-width:100%;overflow:auto;}.nn-graph-scroll svg {display:block;width:100%;min-width:570px;height:auto;}
+.nn-node {cursor:pointer;outline:none;}.nn-node circle {stroke:#baa4d5;stroke-width:1.5;}.nn-node[aria-pressed=true] circle,.nn-node:focus-visible circle {stroke:#7e54b0;stroke-width:3;}
+.nn-node-name {fill:#71548c;font-size:11px;}.nn-node-value {fill:#8c749c;font-size:8px;}.nn-node text {pointer-events:none;}
+.nn-edge {cursor:pointer;outline:none;}.nn-edge line {stroke:#82acc4;opacity:.55;}.nn-edge.negative line {stroke:#cf9669;}.nn-edge.zero line {stroke:#a8a4b1;}
+.nn-edge line.nn-edge-hit {stroke:transparent;stroke-width:12;opacity:1;pointer-events:stroke;}.nn-edge:focus-visible>line:first-of-type,.nn-edge[aria-pressed=true]>line:first-of-type {stroke:#7755ad;opacity:1;stroke-width:4;}
+.nn-layer-active>line:first-of-type {opacity:.95;}.nn-node.nn-layer-active circle {fill:#e6daf6;}
+.nn-layer-label {font-size:12px;fill:#7a6095;}.nn-graph-caption {font-size:11px;fill:#9983ac;}
+.nn-graph-legend {display:flex;flex-wrap:wrap;gap:15px;justify-content:center;color:#95809f;font-size:10px;margin:10px 0;}.nn-graph-legend .positive {color:#6d9db5;}.nn-graph-legend .negative {color:#bf8657;}
+.nn-selection {background:#f7f2fd;border:1px solid #eadff5;border-radius:10px;padding:17px;color:#7b6093;font-size:12px;line-height:1.9;min-width:0;}.nn-selection h3 {margin-top:0;}.nn-selection dl {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px;margin:14px 0;}.nn-selection dd {text-align:right;overflow-wrap:anywhere;}
+.nn-data-picker {display:flex;gap:22px;justify-content:space-between;align-items:center;padding:19px 23px;}.nn-data-picker label {min-width:180px;}.nn-data-picker p {font-size:11px;line-height:1.9;color:#947da5;}
+.nn-forward [role=status] {font-size:12px;color:#8b70a1;margin:18px 0;}.nn-shape-equation {font-family:Consolas,monospace;font-size:12px;color:#9373ae;line-height:2;overflow-wrap:anywhere;}
+.nn-tensor-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:18px 0;}.nn-tensor {border:1px solid #e8def2;border-radius:9px;padding:12px;background:#fbf9fe;min-width:0;}
+.nn-tensor>div {display:flex;justify-content:space-between;align-items:baseline;gap:10px;}.nn-tensor strong {font-size:11px;font-weight:500;color:#7e5a9b;line-height:1.9;overflow-wrap:anywhere;}.nn-tensor>div>span {font-size:10px;color:#a08ab3;white-space:nowrap;}
+.nn-tensor .math-formula {font-size:12px;max-width:100%;}.nn-laboratory .math-formula {max-width:100%;}.nn-laboratory .math-display {font-size:14px;}
+.nn-backprop>label {display:block;max-width:350px;margin:18px 0;}.nn-inspection-banner,.nn-note {padding:14px 16px;border:1px solid #e7dbf4;background:#f3edfb;border-radius:9px;font-size:12px;line-height:1.9;color:#7c5e95;overflow-wrap:anywhere;margin:15px 0;}.nn-note.success {background:#eaf5ed;border-color:#d9ecdd;color:#68896f;}
+.nn-note p {margin:12px 0;font-size:11px;line-height:1.9;}.nn-output-gradient {font-size:12px;color:#7b5a95;line-height:1.9;margin:16px 0;overflow-wrap:anywhere;}
+.nn-details {border:1px solid #e8dff2;border-radius:9px;padding:15px;margin:16px 0;min-width:0;}.nn-details summary {cursor:pointer;color:#8764a3;font-size:12px;line-height:1.9;}.nn-details[open] summary {margin-bottom:16px;}
+.nn-bottom-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start;}
+.nn-chart-scroll svg {display:block;width:100%;min-width:350px;height:auto;}.nn-axis-label {font-size:12px;fill:#947caa;}
+.nn-loss-history {display:flex;gap:15px;align-items:center;margin:15px 0;}.nn-loss-history input {min-width:0;flex:1;accent-color:#8e70c0;}.nn-loss-curve>output {font-size:12px;color:#8c699f;line-height:1.9;overflow-wrap:anywhere;}
+.nn-boundary-scroll svg {display:block;width:100%;min-width:330px;height:auto;}.nn-table-scroll {max-width:100%;overflow:auto;margin:20px 0;border:1px solid #e7dff1;border-radius:8px;}
+.nn-table-scroll table {min-width:540px;width:100%;border-collapse:collapse;font-size:12px;text-align:left;color:#7c6691;}.nn-table-scroll th,.nn-table-scroll td {padding:13px;border-bottom:1px solid #eee7f5;white-space:nowrap;}.nn-table-scroll thead {background:#f8f4fd;}
+.nn-loss-grid {display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.7fr);gap:23px;align-items:start;}.nn-loss-grid .nn-note {margin:0;}
+.nn-footer-note {font-size:11px;line-height:1.9;color:#a18aaa;text-align:center;}
+@media(min-width:1500px){.nn-network-layout {grid-template-columns:minmax(0,1fr) 220px;}}
+@media(max-width:1150px){.nn-workspace {grid-template-columns:215px minmax(0,1fr);gap:18px;}.nn-metrics {grid-template-columns:repeat(3,minmax(0,1fr));}.nn-metrics.compact {grid-template-columns:repeat(2,minmax(0,1fr));}.nn-bottom-grid,.nn-loss-grid {grid-template-columns:1fr;}.nn-tensor-grid {grid-template-columns:1fr;}}
+@media(max-width:850px){.nn-workspace {grid-template-columns:1fr;}.nn-controls {grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}.nn-controls h2,.nn-controls h3,.nn-controls>p,.nn-controls>.eyebrow,.nn-controls>hr {grid-column:1/-1;}.nn-data-picker {flex-wrap:wrap;}.nn-tensor-grid {grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:650px){.nn-laboratory .panel {padding:22px 17px;}.nn-hero {padding:23px 18px;align-items:flex-start;gap:12px;}.nn-hero>svg {width:21px;}.nn-hero h2 {font-size:18px;}.nn-laboratory h2 {font-size:18px;}.nn-metrics {grid-template-columns:repeat(2,minmax(0,1fr));padding:15px;gap:17px;}.nn-metrics strong {font-size:20px;}.nn-controls,.nn-tensor-grid {grid-template-columns:1fr;}.nn-tensor {padding:12px;}.nn-selection {padding:14px;}.nn-loss-history {flex-wrap:wrap;}.nn-loss-history input {flex-basis:100%;}.nn-data-picker label {width:100%;}.nn-laboratory .button {font-size:11px;padding:10px 12px;}.nn-details {padding:12px;}}
+
